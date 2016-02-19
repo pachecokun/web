@@ -1,0 +1,10 @@
+.breadcrumb{
+	margin-top: 20px;
+}
+.product-illustration{
+	text-align: center;
+}
+
+.product-illustration > img{
+	max-width: 100%;
+}

@@ -1,0 +1,46 @@
+body {
+  padding-top: 50px;
+}
+
+.navbar-fixed-top {
+  border: 0;
+}
+
+.navbar-brand{
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+.navbar-brand > img{
+	max-height: 100%;
+}
+a:hover{
+	text-decoration: none;
+}
+
+.navbar-nav > li.dropdown > a{
+	color: #fff;
+}
+.navbar-nav > li.dropdown > a:hover{
+	color: #3399ff;
+}
+
+.dropdown-menu{
+	border-color: #080808;
+	background-color: #080808;
+}
+.dropdown-menu > li > a{
+	color: #fff;
+}
+.navbar-nav > .active > a,
+.navbar-nav > .active > a:hover,
+.navbar-nav > .active > a:focus,
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+	background-color: #428bca;
+	color: #000;
+}
+
+.dropdown-menu > .active > a{
+	background-color: #333;
+	color: #fff;
+}
