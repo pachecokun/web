@@ -1,4 +1,8 @@
-<!DOCTYPE html>
+<?php
+    include_once('DB.php');
+    print_r(getCategorias()[0]->getSubCategorias());
+    die();
+?><!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
@@ -76,13 +80,13 @@
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header">Tablets y Celulares</h1>	
+          <h1 class="page-header">Tablets y Celulares</h1>
 		  <div class="row">
 			<div class="col-sm-3">
 				<div class="product-illustration">
 					<a href="infoProduct.php?id=001"><img src="img/img.jpg"></a>
 				</div>
-				
+
 				<div class="product">
 					<h4>Apple iPod Touch Sexta Generación</h4>
 					<p>Desde <span class="text-success">$4099.00</span></p>
@@ -94,7 +98,7 @@
 				<div class="product-illustration">
 					<a href="infoProduct.php?id=002"><img src="img/img1.jpeg"></a>
 				</div>
-				
+
 				<div class="product">
 					<h4>Apple iPhone 5s</h4>
 					<p>Desde <span class="text-success">$5999.00</span></p>
@@ -106,7 +110,7 @@
 				<div class="product-illustration">
 					<a href="infoProduct.php?id=003"><img src="img/img2.png"></a>
 				</div>
-				
+
 				<div class="product">
 					<h4>Samsung Galaxy S6 Edge</h4>
 					<p>Desde <span class="text-success">$12999.00</span></p>
@@ -118,7 +122,7 @@
 				<div class="product-illustration">
 					<a href="infoProduct.php?id=004"><img src="img/img3.png"></a>
 				</div>
-				
+
 				<div class="product">
 					<h4>Apple iPad Air 2</h4>
 					<p>Desde <span class="text-success">$10999.00</span></p>
@@ -168,7 +172,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="Bootstrap/js/jquery.min.js"><\/script>')</script>
     <script src="Bootstrap/js/bootstrap.min.js"></script>
-    
+
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="Bootstrap/js/ie10-viewport-bug-workaround.js"></script>
   </body>
