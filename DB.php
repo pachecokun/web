@@ -23,16 +23,24 @@ class SubCategoria{
 }
 
 class Producto{
-    public $codigo = 0;
+    public $codigoProducto = 0;
     public $nombre = '';
     public $descripcion = '';
     public $marca = '';
     public $idSubcategoria = '';
+
+    function getModelos(){
+        return getModelos('codigoProducto = '.$this->codigoProducto);
+    }
 }
 
 class Modelo{
     public $idModelo = 0;
     public $nombre = '';
+    public $precio = 0;
+    public $color = '';
+    public $existencias = 0;
+    public $codigoProducto = 0;
 }
 
 
@@ -79,7 +87,7 @@ function getSubCategorias($cond = ''){
     return $aux;
 }
 
-/*Retorna arreglo de prouctos*/
+/*Retorna arreglo de productos*/
 function getProductos($cond = ''){
     $query = 'select*from producto';
 
@@ -93,7 +101,7 @@ function getProductos($cond = ''){
 
     while($row = $res->fetch_assoc()){
         $p = new Producto();
-        $p -> codigo = $row['CodigoProducto'];
+        $p -> codigoProducto = $row['CodigoProducto'];
         $p -> nombre= $row['Nombre'];
         $p -> marca= $row['Marca'];
         $p -> descripcion= $row['Descripcion'];
@@ -103,10 +111,38 @@ function getProductos($cond = ''){
     return $aux;
 }
 
-
+/*Retorna un modelo por su ID*/
 function getProducto($id){
     return getProductos('codigoproducto = '.$id)[0];
 }
+
+/*Retorna arreglo de modelos*/
+function getModelos($cond = ''){
+    $query = 'select*from modelo';
+
+    if($cond != ''){
+        $query .= ' where '.$cond;
+    }
+
+    $res = query($query);
+
+    $aux = array();
+
+    while($row = $res->fetch_assoc()){
+        $m = new Modelo();
+        $m -> idModelo = $row['idModelo'];
+        $m -> nombre = $row['Nombre'];
+        $m -> precio = $row['Precio'];
+        $m -> color = $row['Color'];
+        $m -> existencias = $row['Existencias'];
+        $m -> codigoProducto = $row['CodigoProducto'];
+        $aux []= $m;
+    }
+    return $aux;
+}
+
+
+
 
 function query($q){
 

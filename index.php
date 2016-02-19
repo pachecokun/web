@@ -1,8 +1,4 @@
-<?php
-    include_once('DB.php');
-    print_r(getCategorias()[0]->getSubCategorias());
-    die();
-?><!DOCTYPE html>
+<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
