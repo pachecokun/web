@@ -1,4 +1,19 @@
-<!DOCTYPE html>
+<?php
+include_once('DB.php');
+if(isset($_GET['c'])){
+    $categoria = getCategoria($_GET['c']);
+    if(isset($_GET['s'])){
+        $subcategoria = getSubCategoria($_GET['s']);
+    }
+    else{
+        $subcategoria = false;
+    }
+}
+else{
+    $categoria = false;
+    $subcategoria = false;
+}
+?><!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
@@ -26,57 +41,55 @@
   </head>
 
   <body>
-
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="index.php" title="Ir a inicio"><img src="img/brand-icon.png"></a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-		  <ul class="nav navbar-nav">
-			<li class="dropdown">
-				<a href="index.php" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Explorar Categorías <span class="caret"></span></a>
-					<ul class="dropdown-menu">
-                		<li><a href="index.php?c=001">TV y Video</a></li>
-                		<li><a href="index.php?c=002">Computadoras</a></li>
-                		<li><a href="index.php?c=003">Videojuegos</a></li>
-                		<li class="active"><a href="index.php?c=004">Tablets y Celulares</a></li>
-			        </ul>
-            </li>
-		  </ul>
-          <form class="navbar-form navbar-right" method="post">
-          	<div class="input-group">
-              <input type="text" class="form-control" placeholder="Buscar">
-              <span class="input-group-btn">
-                <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
-              </span>
-            </div>
-          </form>
-        </div>
-      </div>
-    </nav>
-
+    <?php include_once('header.php'); ?>
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
-		  <h3>Tablets y Celulares</h3>
-          <ul class="nav nav-sidebar">
-            <li class="active"><a href="#">Todo</a></li>
-            <li><a href="index.php?c=004&s=001">Tablets </a></li>
-            <li><a href="index.php?c=004&s=002">Teléfonos Celulares</a></li>
-            <li><a href="index.php?c=004&s=003">Accesorios para Celulares</a></li>
-            <li><a href="index.php?c=004&s=004">Headsets</a></li>
-            <li><a href="index.php?c=004&s=005">Wearables</a></li>
-          </ul>
-        </div>
+        <?php if($categoria){?>
+            <div class="col-sm-3 col-md-2 sidebar">
+    		  <h3><?=$categoria->nombre?></h3>
+              <ul class="nav nav-sidebar">
+                <li class="<?=!$subcategoria?'active':''?>"><a href="index.php?c=<?=$categoria->idCategoria?>">Todos</a></li>
+                <?php foreach($categoria->getSubCategorias() as $subc){
+                    $selected = $subcategoria&&$subcategoria->idSubCategoria==$subc->idSubCategoria;
+                ?>
+                    <li class="<?=$selected?'active':''?>"><a href="index.php?c=<?=$categoria->idCategoria?>&s=<?=$subc->idSubCategoria?>"><?=$subc->nombre?></a></li>
+                <?php }?>
+              </ul>
+            </div>
+        <?php }?>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header">Tablets y Celulares</h1>
+          <h1 class="page-header"><?=$subcategoria?$subcategoria->nombre:($categoria?$categoria->nombre:'Todos los productos')?></h1>
+
+            <?php
+
+            $productos = $subcategoria?$subcategoria->getProductos():($categoria?$categoria->getProductos():getProductos());
+
+            $i = 0;
+            $r = 0;
+
+            foreach ($productos as $prod) {
+                if($i%3==0){
+                    echo ($r>0?'</div>':'').'<div class="row">';
+                }
+                $i++;?>
+                <div class="col-sm-3">
+    				<div class="product-illustration">
+    					<a href="infoProduct.php?p=<?=$prod->codigoProducto?>"><img src="<?=$prod->getimagen()?>"></a>
+    				</div>
+
+    				<div class="product">
+    					<h4><?=$prod->nombre?></h4>
+    					<p>Desde <span class="text-success">$<?=$prod->getPrecio()?></span></p>
+    					<p class="text-info"><?=$prod->getExistencias()?> Disponibles</p>
+    				</div>
+    					<a href="infoProduct.php?id=001"><button type="button" class="btn btn-block btn-info">Ver Producto</button></a>
+    			</div>
+                <?php
+            }
+
+            ?>
+
+        <!--
 		  <div class="row">
 			<div class="col-sm-3">
 				<div class="product-illustration">
@@ -163,6 +176,7 @@
 			</div>
 		  </div>
         </div>
+        -->
       </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

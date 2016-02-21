@@ -7,7 +7,12 @@ class Categoria{
 
     /*Retorna las subcategorias de esta categoria*/
     function getSubCategorias(){
-        return getCategorias('idCategoria = '.$this->idCategoria);
+        return getSubCategorias('idCategoria = '.$this->idCategoria);
+    }
+
+    /*Retorna los productos de esta categoria*/
+    function getProductos(){
+        return getProductos('idSubCategoria in (select distinct idSubCategoria from subcategoria where idcategoria='.$this->idCategoria.')');
     }
 }
 
@@ -18,7 +23,7 @@ class SubCategoria{
 
     /*Retorna los productos de esta subcategoria*/
     function getProductos(){
-        return getCategorias('idSubCategoria = '.$idSubCategoria);
+        return getProductos('idSubCategoria = '.$this->idSubCategoria);
     }
 }
 
@@ -27,10 +32,45 @@ class Producto{
     public $nombre = '';
     public $descripcion = '';
     public $marca = '';
-    public $idSubcategoria = '';
+    public $idSubCategoria = '';
 
+    /*Retorna los modelos*/
     function getModelos(){
         return getModelos('codigoProducto = '.$this->codigoProducto);
+    }
+
+    /*Retorna la imagen del producto*/
+    function getimagen(){
+        $ruta = '/img/productos/'.$this->codigoProducto;
+        if(file_exists($ruta.'jpg')){
+            return $ruta.'jpg';
+        }
+        else if(file_exists($ruta.'png')){
+            return $ruta.'png';
+        }
+        else{
+            return '/img/no_img.jpg';
+        }
+    }
+
+    /*Retorna el precio de la version mas barata*/
+    function getPrecio(){
+        $modelos = $this->getModelos();
+        $p = $modelos[0]->precio;
+        foreach($modelos as $m){
+            $p = min($p,$m->precio);
+        }
+        return $p;
+    }
+
+    /*Retorna el total de existencias*/
+    function getExistencias(){
+        $r = 0;
+        $modelos = $this->getModelos();
+        foreach($modelos as $m){
+            $r+=$m->existencias;
+        }
+        return $r;
     }
 }
 
@@ -65,6 +105,11 @@ function getCategorias($cond = ''){
     return $aux;
 }
 
+/*Retorna una categoria*/
+function getCategoria($id){
+    return getCategorias('idcategoria='.$id)[0];
+}
+
 /*Retorna arreglo de subcategorias*/
 function getSubCategorias($cond = ''){
     $query = 'select*from subcategoria';
@@ -78,13 +123,18 @@ function getSubCategorias($cond = ''){
     $aux = array();
 
     while($row = $res->fetch_assoc()){
-        $c = new Categoria();
+        $c = new SubCategoria();
         $c -> idCategoria = $row['idCategoria'];
         $c -> nombre= $row['Nombre'];
         $c -> idSubCategoria = $row['idSubcategoria'];
         $aux []= $c;
     }
     return $aux;
+}
+
+/*Retorna una subcategoria*/
+function getSubCategoria($id){
+    return getSubCategorias('idsubcategoria='.$id)[0];
 }
 
 /*Retorna arreglo de productos*/
@@ -105,7 +155,7 @@ function getProductos($cond = ''){
         $p -> nombre= $row['Nombre'];
         $p -> marca= $row['Marca'];
         $p -> descripcion= $row['Descripcion'];
-        $p -> idSubcategoria= $row['idSubcategoria'];
+        $p -> idSubCategoria= $row['idSubcategoria'];
         $aux []= $p;
     }
     return $aux;

@@ -1,4 +1,9 @@
-<!DOCTYPE html>
+<?php
+include_once('DB.php');
+$producto = getProducto($_GET['p']);
+$subcategoria = getSubCategoria($producto->idSubCategoria);
+$categoria = getCategoria($subcategoria->idCategoria);
+?><!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
@@ -27,71 +32,39 @@
 
   <body>
 
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="index.php" title="Ir a inicio"><img src="img/brand-icon.png"></a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-		  <ul class="nav navbar-nav">
-			<li class="dropdown">
-				<a href="index.php" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Explorar Categorías <span class="caret"></span></a>
-					<ul class="dropdown-menu">
-                		<li><a href="index.php?c=001">TV y Video</a></li>
-                		<li><a href="index.php?c=002">Computadoras</a></li>
-                		<li><a href="index.php?c=003">Videojuegos</a></li>
-                		<li><a href="index.php?c=004">Tablets y Celulares</a></li>
-			        </ul>
-            </li>
-		  </ul>
-          <form class="navbar-form navbar-right" method="post">
-          	<div class="input-group">
-              <input type="text" class="form-control" placeholder="Buscar">
-              <span class="input-group-btn">
-                <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
-              </span>
-            </div>
-          </form>
-        </div>
-      </div>
-    </nav>
+    <?php include_once('header.php')?>
 
     <div class="container">
 	  <ol class="breadcrumb">
-  		<li><a href="index.php?c=005">Equipos de sonido</a></li>
-		<li><a href="index.php?c=005&s=001">Reproductores y MP3</a></li>
-		<li class="active">iPod Touch Sexta Generación</li>
-	  </ol> 
-      <h1 class="page-header">iPod Touch Sexta Generación <small>Apple</small></h1>
+  		<li><a href="index.php?c=<?=$categoria->idCategoria?>"><?=$categoria->nombre?></a></li>
+		<li><a href="index.php?c=<?=$categoria->idCategoria?>&s=<?=$subcategoria->idSubCategoria?>"><?=$subcategoria->nombre?></a></li>
+		<li class="active"><?=$producto->nombre?></li>
+	  </ol>
+      <h1 class="page-header"><?=$producto->nombre?> <small><?=$producto->marca?></small></h1>
 	  <div class="row">
 		<div class="col-sm-6">
 			<div class="product-illustration">
-			  <img src="img/img.jpg">
+			  <img src="<?=$producto->getimagen()?>">
 			</div>
 		</div>
 		<div class="col-sm-6">
 			<h3>Descripción del producto:</h3>
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam quis magna rhoncus, rhoncus lacus eget, consectetur ante. Maecenas volutpat cursus cursus. In iaculis finibus imperdiet. Maecenas vestibulum pellentesque tortor et tristique. Pellentesque molestie nulla at dui condimentum, vehicula varius lectus faucibus. Nullam in velit hendrerit, feugiat velit vel, malesuada enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;</p>
+			<p><?=$producto->descripcion?></p>
 		</div>
 	  </div>
 	  <h3>Modelos</h3>
 	  <div class="row">
-	    <div class="col-sm-4">
-			<h4>16GB - <span class="text-success">$4099.00</span></h4>
-			<ul>
-				<li>Azul.</li>
-				<li>Gris Espacial.</li>
-				<li>Rojo. <span class="text-danger"><strong>Solo 1 disponible</strong></span></li>
-				<li>Plata.</li>
-				<li>Oro. <span class="text-danger"><strong>Agotado</strong></span></li>
-			</ul>
-		</div>
+        <?php
+            foreach($producto->getModelos() as $modelo){?>
+        	    <div class="col-sm-4">
+        			<div style="width:20px;height:20px;background-color:#<?=$modelo->color?>;float:left; margin-top:8px; margin-right:10px; border:1px solid gray; border-radius: 5px;"></div>
+                    <h4><?=$modelo->nombre?> - <span class="text-success">$<?=$modelo->precio?></span></h4>
+        			<ul>
+        				<li><?=$modelo->existencias?> disponibles</li>
+        			</ul>
+        		</div>
+            <?php }
+        ?>
 		<div class="col-sm-4">
 			<h4>32GB - <span class="text-success">$5199.00</span></h4>
 			<ul>
@@ -117,7 +90,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="Bootstrap/js/jquery.min.js"><\/script>')</script>
     <script src="Bootstrap/js/bootstrap.min.js"></script>
-    
+
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="Bootstrap/js/ie10-viewport-bug-workaround.js"></script>
   </body>
