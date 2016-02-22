@@ -53,7 +53,7 @@ class Producto{
         }
     }
 
-    /*Retorna el precio de la version mas barata*/
+    /*Retorna el precio de la version del producto mas barata*/
     function getPrecio(){
         $modelos = $this->getModelos();
         $p = $modelos[0]->precio;
