@@ -6,7 +6,6 @@ if(isset($_POST['b'])){
     $subcategoria = false;
 }
 else{
-    $busqueda = false;
     if(isset($_GET['c'])){
         $categoria = getCategoria($_GET['c']);
         if(isset($_GET['s'])){
@@ -66,11 +65,11 @@ else{
             </div>
         <?php }?>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header"><?=$busqueda?'Búsqueda: "'.$_POST['b'].'"':($subcategoria?$subcategoria->nombre:($categoria?$categoria->nombre:'Todos los productos'))?></h1>
+          <h1 class="page-header"><?=isset($busqueda)?'Búsqueda: "'.$_POST['b'].'"':($subcategoria?$subcategoria->nombre:($categoria?$categoria->nombre:'Todos los productos'))?></h1>
 
             <?php
 
-            $productos = $busqueda?$busqueda:($subcategoria?$subcategoria->getProductos():($categoria?$categoria->getProductos():getProductos()));
+            $productos = isset($busqueda)?$busqueda:($subcategoria?$subcategoria->getProductos():($categoria?$categoria->getProductos():getProductos()));
 
             $i = 0;
             $r = 0;

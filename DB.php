@@ -163,7 +163,7 @@ function getProductos($cond = ''){
 
 /*Retorna arreglo de productos buscados*/
 function getBusqueda($busq){
-    return getProductos('nombre ="'.$busq.'" or descripcion = "'.$busq.'" or marca ="'.$busq.'"');
+    return getProductos('nombre like("%'.$busq.'%") or descripcion like("%'.$busq.'%") or marca like("%'.$busq.'%")');
 }
 
 /*Retorna un modelo por su ID*/
