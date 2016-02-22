@@ -41,12 +41,12 @@ class Producto{
 
     /*Retorna la imagen del producto*/
     function getimagen(){
-        $ruta = '/img/productos/'.$this->codigoProducto;
-        if(file_exists($ruta.'jpg')){
-            return $ruta.'jpg';
+        $ruta = 'img/productos/'.$this->codigoProducto;
+        if(file_exists($ruta.'.jpg')){
+            return $ruta.'.jpg';
         }
-        else if(file_exists($ruta.'png')){
-            return $ruta.'png';
+        else if(file_exists($ruta.'.png')){
+            return $ruta.'.png';
         }
         else{
             return '/img/no_img.jpg';
