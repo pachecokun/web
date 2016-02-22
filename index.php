@@ -77,6 +77,7 @@ else{
             foreach ($productos as $prod) {
                 if($i%3==0){
                     echo ($r>0?'</div>':'').'<div class="row">';
+                    $r++;
                 }
                 $i++;?>
                 <div class="col-sm-3">

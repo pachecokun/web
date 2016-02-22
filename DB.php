@@ -36,7 +36,7 @@ class Producto{
 
     /*Retorna los modelos*/
     function getModelos(){
-        return getModelos('codigoProducto = '.$this->codigoProducto);
+        return getModelos('codigoProducto = "'.$this->codigoProducto.'"');
     }
 
     /*Retorna la imagen del producto*/
@@ -168,7 +168,7 @@ function getBusqueda($busq){
 
 /*Retorna un modelo por su ID*/
 function getProducto($id){
-    return getProductos('codigoproducto = '.$id)[0];
+    return getProductos('codigoproducto = "'.$id.'"')[0];
 }
 
 /*Retorna arreglo de modelos*/
