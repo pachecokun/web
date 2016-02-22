@@ -25,7 +25,7 @@ include_once('DB.php');
 			        </ul>
             </li>
 		  </ul>
-          <form class="navbar-form navbar-right" method="post">
+          <form class="navbar-form navbar-right" method="post" action="index.php">
           	<div class="input-group">
               <input type="text" class="form-control" name="b" placeholder="Buscar">
               <span class="input-group-btn">
