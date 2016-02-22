@@ -1,17 +1,25 @@
 <?php
 include_once('DB.php');
-if(isset($_GET['c'])){
-    $categoria = getCategoria($_GET['c']);
-    if(isset($_GET['s'])){
-        $subcategoria = getSubCategoria($_GET['s']);
-    }
-    else{
-        $subcategoria = false;
-    }
-}
-else{
+if(isset($_POST['b'])){
+    $busqueda = getBusqueda($_POST['b']);
     $categoria = false;
     $subcategoria = false;
+}
+else{
+    $busqueda = false;
+    if(isset($_GET['c'])){
+        $categoria = getCategoria($_GET['c']);
+        if(isset($_GET['s'])){
+            $subcategoria = getSubCategoria($_GET['s']);
+        }
+        else{
+            $subcategoria = false;
+        }
+    }
+    else{
+        $categoria = false;
+        $subcategoria = false;
+    }
 }
 ?><!DOCTYPE html>
 <html>
@@ -58,11 +66,11 @@ else{
             </div>
         <?php }?>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header"><?=$subcategoria?$subcategoria->nombre:($categoria?$categoria->nombre:'Todos los productos')?></h1>
+          <h1 class="page-header"><?=$busqueda?'Búsqueda: "'.$_POST['b'].'"':($subcategoria?$subcategoria->nombre:($categoria?$categoria->nombre:'Todos los productos'))?></h1>
 
             <?php
 
-            $productos = $subcategoria?$subcategoria->getProductos():($categoria?$categoria->getProductos():getProductos());
+            $productos = $busqueda?$busqueda:($subcategoria?$subcategoria->getProductos():($categoria?$categoria->getProductos():getProductos()));
 
             $i = 0;
             $r = 0;
@@ -82,7 +90,7 @@ else{
     					<p>Desde <span class="text-success">$<?=$prod->getPrecio()?></span></p>
     					<p class="text-info"><?=$prod->getExistencias()?> Disponibles</p>
     				</div>
-    					<a href="infoProduct.php?id=001"><button type="button" class="btn btn-block btn-info">Ver Producto</button></a>
+    					<a href="infoProduct.php?p=<?=$prod->codigoProducto?>"><button type="button" class="btn btn-block btn-info">Ver Producto</button></a>
     			</div>
                 <?php
             }

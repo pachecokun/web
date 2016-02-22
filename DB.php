@@ -161,6 +161,11 @@ function getProductos($cond = ''){
     return $aux;
 }
 
+/*Retorna arreglo de productos buscados*/
+function getBusqueda($busq){
+    return getProductos('nombre ="'.$busq.'" or descripcion = "'.$busq.'" or marca ="'.$busq.'"');
+}
+
 /*Retorna un modelo por su ID*/
 function getProducto($id){
     return getProductos('codigoproducto = '.$id)[0];

@@ -65,6 +65,7 @@ $categoria = getCategoria($subcategoria->idCategoria);
         		</div>
             <?php }
         ?>
+        <!--
 		<div class="col-sm-4">
 			<h4>32GB - <span class="text-success">$5199.00</span></h4>
 			<ul>
@@ -85,6 +86,7 @@ $categoria = getCategoria($subcategoria->idCategoria);
 				<li>Oro.</li>
 			</ul>
 		</div>
+    -->
 	  </div>
 	</div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
